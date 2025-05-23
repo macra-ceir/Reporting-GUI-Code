@@ -438,6 +438,7 @@ background-size: 1em;
 .filter-box .filter-row .btn {
   line-height: 28px;
   border-radius: 8px;
+  font-weight: 600;
 }
 
 .filter-box .filter-row .btn-light {

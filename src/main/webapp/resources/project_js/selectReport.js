@@ -23,7 +23,7 @@
 	
 	$.getJSON('./getDropdownList/REPORT_CATEGORY', function(data) {
 		for (i = 0; i < data.length; i++) {
-			$('<option>').val(data[i].value).text(data[i].interp)
+			$('<option>').val(data[i].value).text(data[i].interpretation)
 			.appendTo('#reportCatagory');
 		}
 	});
@@ -50,7 +50,7 @@
 						$("#tableId").empty();
 						for (i = 0; i < result.length; i++){
 							//alert(result[i].reportTrends[0].typeFlag);
-							$('<option>').val(result[i].reportnameId).text(result[i].reportName).attr("trendValue",result[i].reportTrends[0].typeFlag).appendTo('#tableId');
+							$('<option>').val(result[i].reportNameId).text(result[i].reportName).attr("trendValue",result[i].reportTrends[0].typeFlag).appendTo('#tableId');
 						//	$('<option>').val(data[i].tagId).text(data[i].interp).attr("docValue",data[i].value).appendTo('#doc_type');
 						}
 

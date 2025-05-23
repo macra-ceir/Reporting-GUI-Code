@@ -4,18 +4,18 @@
 	response.setHeader("Cache-Control", "no-store");
 	response.setDateHeader("Expires", 0);
 	response.setHeader("Pragma", "no-cache");
-	
+
     /*   //200 secs
 	 session.setAttribute("usertype", null);  */
 /* 	 session.setMaxInactiveInterval(10); */
 	 int timeout = session.getMaxInactiveInterval();
-	
+
 	 long accessTime = session.getLastAccessedTime();
-	 long currentTime= new Date().getTime(); 
+	 long currentTime= new Date().getTime();
 	 long dfd= accessTime +timeout;
 	 if( currentTime< dfd){
 	/*  response.setHeader("Refresh", timeout + "; URL = ../login");
-	 System.out.println("timeout========"+timeout); 
+	 System.out.println("timeout========"+timeout);
 	if (session.getAttribute("usertype") != null) { */
 %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
@@ -30,8 +30,8 @@
 <c:set var="context" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-<head><title>CEIR Portal</title>
-<!--<title>Report</title>-->
+<head><title>EIRS Portal</title>
+<!--<title>Table</title>-->
 
 <meta charset="utf-8" />
 <meta name="viewport"
@@ -44,40 +44,25 @@
 <meta name="_csrf" content="${_csrf.token}"/>
 <!-- default header name is X-CSRF-TOKEN -->
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
-<!-- Security Tags -->
-<script type="text/javascript"
-	src="${context}/resources/js/plugins/jquery-1.11.2.min.js"></script>
 
-<!-- Favicons-->
-<link rel="icon" href="${context}/resources/images/DMC-Logo.png" sizes="32x32">
-<!-- CORE CSS-->
-<link href="${context}/resources/css/materialize.css" type="text/css"
-	rel="stylesheet" media="screen,projection">
-<link href="${context}/resources/css/style.css" type="text/css"
-	rel="stylesheet" media="screen,projection">
-<link
-	href="${context}/resources/js/plugins/data-tables/css/jquery.dataTables.min.css"
-	type="text/css" rel="stylesheet" media="screen,projection">
-<link
-	href="${context}/resources/font/font-awesome/css/font-awesome.min.css"
-	type="text/css" rel="stylesheet" media="screen,projection">
+<link rel="stylesheet" href="${context}/resources/assets/css/bootstrap.min.css">
+<script src="${context}/resources/assets/js/jquery.min.js"></script>
+<script src="${context}/resources/assets/js/popper.min.js"></script>
+<script src="${context}/resources/assets/js/bootstrap.min.js"></script>
 
-<!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
-<link href="${context}/resources/js/plugins/prism/prism.css"
-	type="text/css" rel="stylesheet" media="screen,projection">
-<link
-	href="${context}/resources/js/plugins/perfect-scrollbar/perfect-scrollbar.css"
-	type="text/css" rel="stylesheet" media="screen,projection">
-<link rel="stylesheet"
-	href="${context}/resources/project_css/viewConsignment.css">
-<link rel="stylesheet"
-	href="${context}/resources/project_css/iconStates.css">
-
-<link rel="stylesheet"
-	href="${context}/resources/custom_js/jquery-ui.css">
+<script type="text/javascript" src="${context}/resources/js/plugins/jquery-1.11.2.min.js"></script>
+<script type="text/javascript"> var path = "${context}";</script>
+<link rel="stylesheet" href="${context}/resources/custom_js/jquery-ui.css">
 <script src="${context}/resources/custom_js/1.12.1_jquery-ui.min.js"></script>
+<link href="${context}/resources/js/plugins/data-tables/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" media="screen,projection">
 
-<script src="${context}/resources/custom_js/jquery.blockUI.js"></script>
+<!-- CSS for icons(to remove later) -->
+<link rel="stylesheet" href="${context}/resources/project_css/iconStates.css">
+<link href="${context}/resources/font/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+ <!-- CORE CSS-->
+
+<link rel="stylesheet" href="${context}/resources/assets/css/style.css">
+
 
 
 <style>
@@ -178,108 +163,67 @@ section {
 	<!-- //////////////////////////////////////////////////////////////////////////// -->
 
 	<!-- START CONTENT -->
-	<section id="content">
 
-		<div class="row card-panel">
-			<div class="container-fluid pageHeader">
+	<div class="content-box">
+		<div class="content-container">
+			<div class="content-header">
 				<p class="PageHeading"><spring:message code="sidebar.Report" /></p>
 			</div>
-		
-			<div class="row">
-			  <form action="#" onsubmit="return hide()">
-				<div class="col s12 m12">
-					<div id="submitbtn">
-						
-					<%-- 	<div class="input-field col s12 m1">
-							<label for="Search" class="center-align ml-10"><spring:message code="sidebar.Report" /></label>
-						</div>
-						<div class="input-field col s7 m4">
-                                <select class="browser-default" id="tableId" required="">
-                                <option value=""  selected=""><spring:message code="select.report" /></option>
+			<div class="filter-box">
+				<div id="submitbtn">
+						<form action="#" onsubmit="return hide()">
+                            <div class="form-row align-items-center">
+                              <div class="form-group col-md-4 mb-3">
+                                <label><spring:message code="sidebar.ReportCatagory" /> <span class="star">*</span> </label>
+                              <select class="form-control mb-2" id="reportCatagory" required >
+                                <option value="" disabled selected><spring:message code="select.reportCatagory" /></option>
                                  </select>
-                         </div>
- --%>					
- 						<div class="col s12 m4 selectDropdwn">
-							<label for="reportCatagory"><spring:message
-									code="sidebar.ReportCatagory" /> <span class="star">*</span></label> <select
-								class="browser-default" title="<spring:message code="" />"
-								oninput="InvalidMsg(this,'input','<spring:message code="validation.selectFieldMsg" />');"
-								oninvalid="InvalidMsg(this,'input','<spring:message code="validation.selectFieldMsg" />');"
-								required id="reportCatagory">
-								<option value="" disabled selected><spring:message
-										code="select.reportCatagory" /></option>
-							</select>
-						</div>
- 										
-						<div class="col s12 m4 selectDropdwn">
-							<label for="tableId"><spring:message
-									code="sidebar.Report" /> <span class="star">*</span></label> <select
-								class="browser-default" title="<spring:message code="" />"
-								oninput="InvalidMsg(this,'input','<spring:message code="validation.selectFieldMsg" />');"
-								oninvalid="InvalidMsg(this,'input','<spring:message code="validation.selectFieldMsg" />');"
-								required id="tableId">
-								<option value="" disabled selected><spring:message
-										code="select.report"/></option>
-							</select>
-						</div>
-						<div class="input-field col s12 m2 l2" style="margin-top: 39px;">
-							<%-- <button type="button" class="btn"  id="submit" onclick="hide();"><spring:message code="button.submit" /></button> --%>
-							<button class="btn " type="submit"><spring:message code="button.submit" /></button>
-						</div>
-					</div>
-				</div>
-				</form>
+                              </div>
+
+                              <div class="form-group col-md-4 mb-3">
+                                <label><spring:message code="sidebar.Report" /> <span class="star">*</span> </label>
+                             <select class="form-control mb-2" id="tableId" required="">
+							<option value="" disabled selected ><spring:message code="select.report"/></option>
+							 </select>
+                              </div>
+                              <div class="col-auto">
+                               <button type="submit" class="btn save-button"  id="submit"><spring:message code="button.submit" /></button>
+                              </div>
+                            </div>
+                          </form>
+
 			</div>
-		
+			</div>
 		</div>
-	</section>
+	</div>
+
+
+<script type="text/javascript" src="${context}/resources/js/materialize.js"></script>
+	<script type="text/javascript" src="${context}/resources/js/plugins/data-tables/js/jquery.dataTables.min.js"></script>
+	<script src="${context}/resources/assets/js/custom.js"></script>
+	<!-- chartist -->
+
+	<script type="text/javascript" src="${context}/resources/project_js/globalVariables.js?version=<%= (int) (Math.random() * 10) %>"></script>
 	<!-- i18n library -->
-	<script type="text/javascript"
-		src="${context}/resources/project_js/CLDRPluralRuleParser.js"></script>
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/i18n.js"></script>
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/messagestore.js"></script>
+	<script type="text/javascript"src="${context}/resources/project_js/CLDRPluralRuleParser.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/i18n.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/messagestore.js"></script>
 
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/fallbacks.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/fallbacks.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/language.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/parser.js"></script>
 
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/language.js"></script>
-
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/parser.js"></script>
-
-
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/emitter.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/emitter.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/bidi.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/history.js"></script>
+	<script type="text/javascript" src="${context}/resources/i18n_library/min.js"></script>
+	<script type="text/javascript" src="${context}/resources/project_js/backbutton.js"></script>
+	<script type="text/javascript" src="${context}/resources/project_js/dragableModal.js"></script>
+	<script type="text/javascript" src="${context}/resources/project_js/enterKey.js"></script>
+	<script type="text/javascript" src="${context}/resources/project_js/enterKey.js?version=<%= (int) (Math.random() * 10) %>"></script>
+	<script type="text/javascript" src="${context}/resources/project_js/selectReport.js?version=<%= (int) (Math.random() * 10) %>"></script>
 
 
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/bidi.js"></script>
-
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/history.js"></script>
-
-	<script type="text/javascript"
-		src="${context}/resources/i18n_library/min.js"></script>
-	<script type="text/javascript"
-		src="${context}/resources/project_js/globalVariables.js?version=<%= (int) (Math.random() * 10) %>"></script>
-	<script type="text/javascript"
-		src="${context}/resources/project_js/validationMsg.js?version=<%= (int) (Math.random() * 10) %>"></script>
-	<script type="text/javascript"
-		src="${context}/resources/js/materialize.js"></script>
-	<script
-		src="${context}/resources/custom_js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${context}/resources/js/plugins.js"></script>
-
-	<script type="text/javascript"
-		src="${context}/resources/js/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-
-	<script type="text/javascript"
-		src="${context}/resources/project_js/enterKey.js?version=<%= (int) (Math.random() * 10) %>"></script>
-	<script type="text/javascript"
-		src="${context}/resources/project_js/selectReport.js?version=<%= (int) (Math.random() * 10) %>"></script>
 <%-- <script type="text/javascript">$( document ).ready(function() {if($("body").attr("data-roleType") == '' || ($("body").attr("data-roleType") != window.parent.$("body").attr("data-roleType"))){window.top.location.href = "./login?isExpired=yes";} var timeoutTime = <%=session.getLastAccessedTime()%>;var timeout = <%=session.getMaxInactiveInterval()%>;timeoutTime += timeout;var currentTime;$("body").click(function(e) {$.ajaxSetup({headers:{ 'X-CSRF-TOKEN': $("meta[name='_csrf']").attr("content") }});$.ajax({url: './serverTime',type: 'GET',async: false,success: function (data, textStatus, jqXHR) {currentTime = data;},error: function (jqXHR, textStatus, errorThrown) {}});if( currentTime > timeoutTime ){window.top.location.href = "./login?isExpired=yes";}else{timeoutTime = currentTime + timeout;}});});</script> --%>
 <script type="text/javascript">var countHit="";  $( document ).ready(function() {   if($("body").attr("data-roleType") == '' || ($("body").attr("data-roleType") != window.parent.$("body").attr("data-roleType"))){window.top.location.href = "./login?isExpired=yes";} var timeoutTime = <%=session.getLastAccessedTime()%>;var timeout = <%=session.getMaxInactiveInterval()%>;timeoutTime += timeout;var currentTime;
 $("body").click(function(e) {
@@ -291,8 +235,8 @@ $("body").click(function(e) {
 	  function handler(e) {
 			  e.stopPropagation();
 			  e.preventDefault();
-			}  
-			 window.top.location.href = "./login?isExpired=yes";   
+			}
+			 window.top.location.href = "./login?isExpired=yes";
 		   }
 	else{timeoutTime = currentTime + timeout;}});});
 	</script>
@@ -300,15 +244,14 @@ $("body").click(function(e) {
 		src="${context}/resources/ajax/keyBoardShortcut.js?version=<%= (int) (Math.random() * 10) %>"></script>
 </body></html>
 <%
-	} else {
-		/*  request.setAttribute("msg", "  *Please login first");
-		request.getRequestDispatcher("./index.jsp").forward(request, response); */
+} else {
+
 %>
 <script language="JavaScript">
-	sessionStorage.setItem("loginMsg",
-			"*Session has been expired");
-	window.top.location.href = "./login";
+sessionStorage.setItem("loginMsg",
+"*Session has been expired");
+window.top.location.href = "./login";
 </script>
 <%
-	}
+}
 %>

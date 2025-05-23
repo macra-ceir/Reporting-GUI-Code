@@ -6,7 +6,7 @@ import org.gl.ceir.graph.model.ReportTrends;
 import org.springframework.stereotype.Component;
 @Component
 public class ReportResponse {
-	private Integer reportnameId,reportCategory;
+	private Integer reportNameId,reportCategory;
 	private String reportName;
 	private Integer status;
 	private Integer reportOrder;
@@ -19,12 +19,15 @@ public class ReportResponse {
 	private String createdOn;
 	private String modifiedOn;
 	private List<ReportTrends> reportTrends;
-	public Integer getReportnameId() {
-		return reportnameId;
+
+	public Integer getReportNameId() {
+		return reportNameId;
 	}
-	public void setReportnameId(Integer reportnameId) {
-		this.reportnameId = reportnameId;
+
+	public void setReportNameId(Integer reportNameId) {
+		this.reportNameId = reportNameId;
 	}
+
 	public Integer getReportCategory() {
 		return reportCategory;
 	}
@@ -105,40 +108,24 @@ public class ReportResponse {
 	public void setReportTrends(List<ReportTrends> reportTrends) {
 		this.reportTrends = reportTrends;
 	}
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ReportResponse [reportnameId=");
-		builder.append(reportnameId);
-		builder.append(", reportCategory=");
-		builder.append(reportCategory);
-		builder.append(", reportName=");
-		builder.append(reportName);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append(", reportOrder=");
-		builder.append(reportOrder);
-		builder.append(", inputQuery=");
-		builder.append(inputQuery);
-		builder.append(", outputTable=");
-		builder.append(outputTable);
-		builder.append(", insertQuery=");
-		builder.append(insertQuery);
-		builder.append(", viewflag=");
-		builder.append(viewflag);
-		builder.append(", txnIdField=");
-		builder.append(txnIdField);
-		builder.append(", keyColumn=");
-		builder.append(keyColumn);
-		builder.append(", createdOn=");
-		builder.append(createdOn);
-		builder.append(", modifiedOn=");
-		builder.append(modifiedOn);
-		builder.append(", reportTrends=");
-		builder.append(reportTrends);
-		builder.append("]");
-		return builder.toString();
+		return "ReportResponse{" +
+				"reportNameId=" + reportNameId +
+				", reportCategory=" + reportCategory +
+				", reportName='" + reportName + '\'' +
+				", status=" + status +
+				", reportOrder=" + reportOrder +
+				", inputQuery=" + inputQuery +
+				", outputTable='" + outputTable + '\'' +
+				", insertQuery=" + insertQuery +
+				", viewflag=" + viewflag +
+				", txnIdField='" + txnIdField + '\'' +
+				", keyColumn=" + keyColumn +
+				", createdOn='" + createdOn + '\'' +
+				", modifiedOn='" + modifiedOn + '\'' +
+				", reportTrends=" + reportTrends +
+				'}';
 	}
-
-	
 }

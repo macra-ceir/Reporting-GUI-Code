@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import org.springframework.web.util.HtmlUtils;
 
 @RestController
 public class ReportDatatableController {
@@ -61,7 +62,8 @@ public class ReportDatatableController {
 	@PostMapping("dbReportData")
 	public ResponseEntity<?> viewReportTable(HttpServletRequest request, HttpSession session) {
 		List<List<Object>> finalList = new ArrayList<List<Object>>();
-		String filter = request.getParameter("filter");
+		//String filter = request.getParameter("filter");
+		String filter = HtmlUtils.htmlUnescape(request.getParameter("filter"));
 		MapDatatableResponse map = new MapDatatableResponse();
 		Gson gsonObject = new Gson();
 		DBrowDataModel filterrequest = gsonObject.fromJson(filter, DBrowDataModel.class);
